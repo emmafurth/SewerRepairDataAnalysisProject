@@ -1,5 +1,8 @@
 # Using emergency alert data to find patterns in sewer repairs
 
+By Emma Furth
+
+
 Depending on where you live, your local utility company may allow you to sign up for alerts about outages in your area. [WSSC Water](https://www.wsscwater.com), the main provider of water and sewer services for Prince George's and Montgomery Counties in Maryland, makes an [archive](https://www.wsscwater.com/newsroom?month=all&year=2026&type[253]=253) of such alerts from as far back as 2022 available on their website. I wrote a Python program to scrape those alerts and compile them into a dataset of all emergency repairs and maintenance publicly announced by WSSC from the last few years, including their dates, location, and the diameter of pipe involved. 
 
 ![](images/alert_map.png)
