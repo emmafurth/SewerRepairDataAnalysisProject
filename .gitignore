@@ -1,5 +1,6 @@
 .Rhistory
 Datasets/**
 !Datasets/WSSC_Alerts.zip
+!Datasets/Tree_canopy_2023_Merged.gdb.zip
 EDA/tree_analysis_EDA.ipynb
 EDA/analyze_traffic_data_EDA_lines.ipynb
