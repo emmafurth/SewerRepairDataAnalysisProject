@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>linked_in_post</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<h1
+id="using-emergency-alert-data-to-find-patterns-in-sewer-repairs">Using
+emergency alert data to find patterns in sewer repairs</h1>
+<p>Depending on where you live, your local utility company may allow you
+to sign up for alerts about outages in your area. <a
+href="https://www.wsscwater.com">WSSC Water</a>, the main provider of
+water and sewer services for Prince George’s and Montgomery Counties in
+Maryland, makes an <a
+href="https://www.wsscwater.com/newsroom?month=all&amp;year=2026&amp;type%5B253%5D=253">archive</a>
+of such alerts from as far back as 2022 available on their website. I
+wrote a Python program to scrape those alerts and compile them into a
+dataset of all emergency repairs and maintenance publicly announced by
+WSSC from the last few years, including their dates, location, and the
+diameter of pipe involved.</p>
+<p><img src="images/alert_map.png" /></p>
+<h2 id="traffic-trees">Traffic &amp; Trees</h2>
+<p>Many factors can potentially lead to damage to sewer pipes, but the
+two I chose to focus on were tree canopy and traffic volume. Tree roots
+can grow into or around pipes, doing damage over time, while automobile
+traffic can cause vibrations whose effects add up over time.</p>
+<p>To measure local traffic volume, I used the <a
+href="https://data-maryland.opendata.arcgis.com/datasets/mdot-sha-annual-average-daily-traffic-aadt-locations/explore?location=38.843861%2C-77.269759%2C8">Annual
+Average Daily Traffic</a> (AADT) count dataset published by the Maryland
+Department of Transportation.</p>
+<p><img src="images/aadt_2023.png" /></p>
+<p>I couldn’t find a single tree canopy dataset covering both Montgomery
+and Prince George’s Counties. Instead, I took two sufficiently similar
+Tree Canopy polygon datasets for <a
+href="https://gisdata.pgplanning.org/opendata/search.asp?s=Tree_Canopy_2023_Py">Prince
+George’s</a> and <a
+href="https://data-mcplanning.hub.arcgis.com/datasets/0276692e49bb441c8bd0a823da2de121/about">Montgomery</a>
+counties and combine them, as seen in the map below.</p>
+<p><img src="images/tree_canopy.png" /></p>
+<h2 id="aggregating-with-h3-hexagons">Aggregating with H3 Hexagons</h2>
+<p>To facilitate analysis, I aggregated all three datasets into <a
+href="https://h3geo.org/">H3 hexagons</a>. I chose resolution 7, as it
+was the smallest resolution where most of the hexes in the alert dataset
+were touching at least one other hex in the set. For the alert dataset,
+I aggregated based on the total number of alerts within that hexagon.
+For the traffic data, I aggregated based on the sum of the Annual
+Average Daily Traffic (AADT) counts for 2023 of all locations in each
+hex. For tree canopy, I performed a spatial join and calculated the
+percent of the area of each hex covered by tree canopy. I then joined
+all three datasets</p>
+<p>Then I combined them into a single data frame.</p>
+<p><img src="images/h3_comparison_joined.png" /></p>
+<h2 id="poisson-regression">Poisson Regression</h2>
+<p><img src="images/pair_plot.png" /></p>
+<p>The histogram of the count data resembles a Poisson curve, so a
+Poisson regression is most appropriate here. Our null hypothesis
+(<code>H_0</code>) is that there is no relationship between the total
+number of repair alerts per hex and the total AADT or canopy cover
+perentage per hex. Our alternative hyopthesis (<code>H_a</code>) is that
+there is some relatiionship. Our significance level 0.05. A Poisson
+regression yields the following results:</p>
+<pre><code>                 Generalized Linear Model Regression Results                  
+==============================================================================
+Dep. Variable:                  count   No. Observations:                  517
+Model:                            GLM   Df Residuals:                      514
+Model Family:                 Poisson   Df Model:                            2
+Link Function:                    Log   Scale:                          1.0000
+Method:                          IRLS   Log-Likelihood:                -460.45
+Date:                Thu, 07 May 2026   Deviance:                       664.67
+Time:                        15:52:42   Pearson chi2:                 1.12e+03
+No. Iterations:                     7   Pseudo R-squ. (CS):             0.1441
+Covariance Type:            nonrobust                                         
+=================================================================================
+                    coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------
+const             0.0673      0.224      0.300      0.764      -0.372       0.507
+canopy_pct       -0.0289      0.005     -5.507      0.000      -0.039      -0.019
+AADT_2023_sum  2.271e-06   3.59e-07      6.330      0.000    1.57e-06    2.97e-06
+=================================================================================</code></pre>
+<p>The <span class="math inline"><em>p</em></span> value is less than
+0.05 for both independent variables, so we can reject the null
+hypothesis. However, the Pseudo r-squared is quite low, suggesting it’s
+not a very strong correlation.</p>
+<h2 id="global-spatial-autocorrelation">Global spatial
+autocorrelation</h2>
+<p>One advantage of aggregating our data as H3 hexagons is that it
+simplifies many kinds of spatial operations that would otherwise be
+computationally quite expensive. For example: Global spatial
+autocorrelation, requires that every polygon be compared with everyone
+of its immediate neighbors, even if they overlap at only one single
+point. By using H3 hexagons, we can rely on the fact that every polygon
+in the set has no more than six immediately adjacent neighbors, and all
+of them can be uniquely identified by a hex identifier. This makes it
+significantly easier to calculate statistics like Global Moran’s I using
+code like that found in <a
+href="https://github.com/uber/h3-py-notebooks/blob/master/notebooks/urban_analytics.ipynb">this</a>
+notebook. It also makes it easier to calculate spatial lags that “smooth
+out” the data, allowing us to produce choropleths that make clusters
+more visible and aesthetically pleasing:</p>
+<p><img src="images/spatial_lag.png" /></p>
+</body>
+</html>
